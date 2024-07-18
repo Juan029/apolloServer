@@ -6,4 +6,14 @@ const citaMedicaSchema = new mongoose.Schema({
     personaId: { type: mongoose.Schema.Types.ObjectId, ref: 'Recipe' }
 });
 
-module.exports = global.citasConnection.model('CitaMedica', citaMedicaSchema);
+let CitaMedica;
+
+if (global.citasConnection) {
+    CitaMedica = global.citasConnection.model('CitaMedica', citaMedicaSchema);
+} else {
+    console.error('La conexión a la base de datos de citas no está disponible');
+    // Fallback a la conexión principal
+    CitaMedica = mongoose.model('CitaMedica', citaMedicaSchema);
+}
+
+module.exports = CitaMedica;
